@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستخرج بيانات الرقم القومي المصري</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cairo Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Glassmorphism background and dynamic animated radial blobs */
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.45;
+            animation: float 18s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            right: -10%;
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #0ea5e9, #10b981);
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 30%;
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(40px, -50px) scale(1.08); }
+            100% { transform: translate(-30px, 30px) scale(0.95); }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .glass-card-subtle {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s ease;
+        }
+
+        .glass-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            outline: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen py-8 px-4 sm:px-6 lg:px-8 items-center justify-center">
+
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="w-full max-w-4xl mx-auto space-y-6">
+
+        <header class="glass-card rounded-3xl p-6 text-center relative overflow-hidden">
+            <div class="absolute -left-10 -top-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs sm:text-sm font-semibold mb-3">
+                <i class="fa-solid fa-id-card text-indigo-400"></i>
+                <span>أداة التحليل الذكي للرقم القومي</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-indigo-200 tracking-tight mb-2">
+                مستخرج بيانات الرقم القومي المصري
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                ادخل الرقم القومي المكون من 14 رقمًا لاستخراج جميع البيانات الرسمية: تاريخ الميلاد، المحافظة، القرن، النوع، وحساب السن الدقيق بشكل فورى.
+            </p>
+        </header>
+
+        <section class="glass-card rounded-3xl p-6 sm:p-8 relative">
+            <label for="nationalId" class="block text-sm sm:text-base font-bold text-slate-200 mb-2">
+                <i class="fa-solid fa-magnifying-glass text-indigo-400 ml-2"></i>أدخل الرقم القومي (14 رقم):
+            </label>
+
+            <div class="relative flex items-center">
+                <input 
+                    type="text" 
+                    id="nationalId" 
+                    maxlength="14" 
+                    placeholder="مثال: 29805151500123"
+                    dir="ltr"
+                    class="glass-input w-full px-5 py-4 rounded-2xl text-xl sm:text-2xl font-mono tracking-widest text-center text-white placeholder-slate-500 font-bold focus:ring-0"
+                    autocomplete="off"
+                    inputmode="numeric"
+                />
+                
+                <div id="charCounter" class="absolute left-4 text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800/80 text-slate-400 border border-slate-700">
+                    0 / 14
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons / Sample Generator -->
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-slate-400 font-semibold"><i class="fa-solid fa-vial ml-1"></i>أمثلة للتجربة:</span>
+                    <button type="button" onclick="loadSample('29508151501234')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition text-indigo-300">
+                        كفر الشيخ (ذكر)
+                    </button>
+                    <button type="button" onclick="loadSample('30201010109876')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition text-emerald-300">
+                        القاهرة (أنثى - 2002)
+                    </button>
+                    <button type="button" onclick="loadSample('28811208800551')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition text-amber-300">
+                        مولود بالخارج
+                    </button>
+                </div>
+
+                <button type="button" onclick="clearInput()" class="px-3 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 transition flex items-center gap-1 mr-auto">
+                    <i class="fa-solid fa-eraser"></i> مسح
+                </button>
+            </div>
+
+            <div id="statusBox" class="hidden mt-4 p-4 rounded-2xl border text-sm font-medium transition-all duration-300 flex items-center gap-3">
+                <i id="statusIcon" class="text-lg"></i>
+                <span id="statusMessage"></span>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="hidden space-y-6">
+            
+            <!-- Key Data Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- 1. Date of Birth & Century -->
+                <div class="glass-card rounded-2xl p-5 hover:border-indigo-500/40 transition duration-300 relative overflow-hidden group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">تاريخ الميلاد والعصر</span>
+                            <h3 id="resBirthDate" class="text-xl font-black text-white">--</h3>
+                            <p id="resCentury" class="text-xs text-slate-300 mt-1">--</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl group-hover:scale-110 transition duration-300">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Governorate -->
+                <div class="glass-card rounded-2xl p-5 hover:border-cyan-500/40 transition duration-300 relative overflow-hidden group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider block mb-1">جهة الميلاد / المحافظة</span>
+                            <h3 id="resGovernorate" class="text-xl font-black text-white">--</h3>
+                            <p id="resGovCode" class="text-xs text-slate-300 mt-1">--</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl group-hover:scale-110 transition duration-300">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Gender -->
+                <div class="glass-card rounded-2xl p-5 hover:border-purple-500/40 transition duration-300 relative overflow-hidden group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-purple-400 uppercase tracking-wider block mb-1">النوع / الجنس</span>
+                            <h3 id="resGender" class="text-xl font-black text-white">--</h3>
+                            <p id="resGenderSeq" class="text-xs text-slate-300 mt-1">--</p>
+                        </div>
+                        <div id="genderIconContainer" class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl group-hover:scale-110 transition duration-300">
+                            <i id="resGenderIcon" class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Age Calculation -->
+                <div class="glass-card rounded-2xl p-5 hover:border-emerald-500/40 transition duration-300 relative overflow-hidden group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">العمر الدقيق اليوم</span>
+                            <h3 id="resAge" class="text-xl font-black text-emerald-300">--</h3>
+                            <p id="resAgeDetails" class="text-xs text-slate-300 mt-1">--</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl group-hover:scale-110 transition duration-300">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 border-indigo-500/20">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                        <i class="fa-solid fa-star-and-crescent text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block">البرج الفلكي:</span>
+                        <span id="resZodiac" class="text-base font-bold text-amber-300">--</span>
+                    </div>
+                </div>
+
+                <div class="h-px sm:h-8 w-full sm:w-px bg-white/10"></div>
+
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+                        <i class="fa-solid fa-cake-candles text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block">عيد الميلاد القادم:</span>
+                        <span id="resNextBirthday" class="text-base font-bold text-rose-300">--</span>
+                    </div>
+                </div>
+
+                <button onclick="copySummary()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 active:scale-95">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>نسخ التقرير</span>
+                </button>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6">
+                <h4 class="text-sm font-bold text-slate-200 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-cubes text-indigo-400"></i>
+                    <span>تفكيك وتفسير مكونات الرقم القومي:</span>
+                </h4>
+
+                <!-- Digit Visualizer Bar -->
+                <div class="grid grid-cols-14 gap-1 dir-ltr text-center font-mono font-bold my-3 text-xs sm:text-base" id="digitBreakdownBar">
+                    <!-- Dynamic spans injected by JS -->
+                </div>
+
+                <!-- Color Codes Legend -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs mt-4">
+                    <div class="flex items-center gap-2 p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                        <span class="w-3 h-3 rounded-full bg-indigo-500 inline-block"></span>
+                        <span class="text-slate-300">القرن (1 رقم)</span>
+                    </div>
+                    <div class="flex items-center gap-2 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-slate-300">الميلاد (6 أرقام)</span>
+                    </div>
+                    <div class="flex items-center gap-2 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                        <span class="w-3 h-3 rounded-full bg-cyan-500 inline-block"></span>
+                        <span class="text-slate-300">المحافظة (2 رقم)</span>
+                    </div>
+                    <div class="flex items-center gap-2 p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                        <span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span>
+                        <span class="text-slate-300">التسلسل والنوع (5)</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="glass-card-subtle rounded-3xl p-6 text-xs sm:text-sm text-slate-400 space-y-3">
+            <h4 class="font-bold text-slate-200 text-base flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-indigo-400"></i>
+                كيف يتم فك تشفير الرقم القومي المصري؟
+            </h4>
+            <ul class="list-disc list-inside space-y-1.5 leading-relaxed text-slate-300">
+                <li><strong class="text-indigo-300">الرقم الأول (من اليسار):</strong> يرمز للقرن (2 = مواليد 1900 حتى 1999، 3 = مواليد 2000 حتى 2099).</li>
+                <li><strong class="text-emerald-300">الأرقام 2 إلى 7:</strong> تاريخ الميلاد بالتفصيل (سنة، شهر، يوم).</li>
+                <li><strong class="text-cyan-300">الركمان 8 و 9:</strong> كود المحافظة التي أُصدرت فيها شهادة الميلاد (مثلاً 01 للقاهرة، 15 لكفر الشيخ).</li>
+                <li><strong class="text-purple-300">الأرقام 10 إلى 13:</strong> تسلسل المواليد في هذا اليوم. الرقم 13 إذا كان <span class="text-indigo-400 font-bold">فردياً</span> فالجنس ذكر، وإذا كان <span class="text-pink-400 font-bold">زوجياً</span> فالجنس أنثى.</li>
+                <li><strong class="text-amber-300">الرقم 14:</strong> رقم إثبات صحة ومعيار آمان حاسوبي للبطاقة.</li>
+            </ul>
+        </footer>
+
+    </main>
+
+    <script>
+        /*
+         * Egyptian Governorate Codes Lookup Table
+         */
+        const GOVERNORATES = {
+            "01": "القاهرة",
+            "02": "الإسكندرية",
+            "03": "بورسعيد",
+            "04": "السويس",
+            "11": "دمياط",
+            "12": "الدقهلية",
+            "13": "الشرقية",
+            "14": "القليوبية",
+            "15": "كفر الشيخ",
+            "16": "الغربية",
+            "17": "المنوفية",
+            "18": "البحيرة",
+            "19": "الإسماعيلية",
+            "21": "الجيزة",
+            "22": "بني سويف",
+            "23": "الفيوم",
+            "24": "المنيا",
+            "25": "أسيوط",
+            "26": "سوهاج",
+            "27": "قنا",
+            "28": "أسوان",
+            "29": "الأقصر",
+            "31": "البحر الأحمر",
+            "32": "الوادي الجديد",
+            "33": "مطروح",
+            "34": "شمال سيناء",
+            "35": "جنوب سيناء",
+            "88": "مولود خارج الجمهورية"
+        };
+
+        // DOM Element references
+        const nationalIdInput = document.getElementById('nationalId');
+        const charCounter = document.getElementById('charCounter');
+        const statusBox = document.getElementById('statusBox');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusMessage = document.getElementById('statusMessage');
+        const resultsSection = document.getElementById('resultsSection');
+
+        // Results elements
+        const resBirthDate = document.getElementById('resBirthDate');
+        const resCentury = document.getElementById('resCentury');
+        const resGovernorate = document.getElementById('resGovernorate');
+        const resGovCode = document.getElementById('resGovCode');
+        const resGender = document.getElementById('resGender');
+        const resGenderSeq = document.getElementById('resGenderSeq');
+        const resGenderIcon = document.getElementById('resGenderIcon');
+        const genderIconContainer = document.getElementById('genderIconContainer');
+        const resAge = document.getElementById('resAge');
+        const resAgeDetails = document.getElementById('resAgeDetails');
+        const resZodiac = document.getElementById('resZodiac');
+        const resNextBirthday = document.getElementById('resNextBirthday');
+        const digitBreakdownBar = document.getElementById('digitBreakdownBar');
+
+        nationalIdInput.addEventListener('input', function (e) {
+            // Filter digits only and convert Arabic numerals to English
+            let value = e.target.value;
+            value = convertArabicToEnglishDigits(value).replace(/\D/g, '');
+            e.target.value = value;
+
+            // Update counter
+            const len = value.length;
+            charCounter.textContent = `${len} / 14`;
+
+            if (len === 14) {
+                processNationalId(value);
+            } else if (len > 0) {
+                showStatus(`برجاء إكمال الرقم القومي (متبقي ${14 - len} أرقام)`, 'info');
+                hideResults();
+            } else {
+                hideStatus();
+                hideResults();
+            }
+        });
+
+        // Convert Eastern Arabic numerals to standard Western digits
+        function convertArabicToEnglishDigits(str) {
+            const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return str.replace(/[٠-٩]/g, w => arabicDigits.indexOf(w));
+        }
+
+        function loadSample(sampleId) {
+            nationalIdInput.value = sampleId;
+            nationalIdInput.dispatchEvent(new Event('input'));
+        }
+
+        function clearInput() {
+            nationalIdInput.value = '';
+            charCounter.textContent = '0 / 14';
+            hideStatus();
+            hideResults();
+            nationalIdInput.focus();
+        }
+
+        function processNationalId(idStr) {
+            // 1. Century Digit Parsing
+            const centuryDigit = parseInt(idStr.charAt(0));
+            let centuryYearPrefix = 0;
+            let centuryName = "";
+
+            if (centuryDigit === 2) {
+                centuryYearPrefix = 1900;
+                centuryName = "القرن العشرين (1900 - 1999)";
+            } else if (centuryDigit === 3) {
+                centuryYearPrefix = 2000;
+                centuryName = "القرن الحادي والعشرين (2000 - 2099)";
+            } else {
+                showStatus("الرقم القومي غير صحيح: الرقم الأول الخاص بالقرن يجب أن يكون 2 أو 3.", "error");
+                hideResults();
+                return;
+            }
+
+            // 2. Birth Date Extraction
+            const yearTwoDigits = parseInt(idStr.substring(1, 3));
+            const month = parseInt(idStr.substring(3, 5));
+            const day = parseInt(idStr.substring(5, 7));
+
+            const fullYear = centuryYearPrefix + yearTwoDigits;
+
+            // Date validation check
+            if (!isValidDate(fullYear, month, day)) {
+                showStatus("الرقم القومي غير صحيح: تاريخ الميلاد المستخرج غير حقيقي أو غير صالح.", "error");
+                hideResults();
+                return;
+            }
+
+            const birthDateObj = new Date(fullYear, month - 1, day);
+            const now = new Date();
+
+            if (birthDateObj > now) {
+                showStatus("تاريخ الميلاد المستخرج يبدو أنه في المستقبل!", "error");
+                hideResults();
+                return;
+            }
+
+            // 3. Governorate Code
+            const govCode = idStr.substring(7, 9);
+            const governorateName = GOVERNORATES[govCode] || "غير مدرجة / رمز غير معروف";
+
+            // 4. Gender (13th digit: Odd = Male, Even = Female)
+            const genderDigit = parseInt(idStr.charAt(12));
+            const isMale = (genderDigit % 2 !== 0);
+            const genderText = isMale ? "ذكر" : "أنثى";
+
+            const ageInfo = calculateExactAge(birthDateObj, now);
+            const zodiacSign = getZodiacSign(day, month);
+            const nextBdayDays = calculateDaysToNextBirthday(birthDateObj, now);
+
+            // Display status
+            showStatus("تم قراءة واستخراج البيانات بنجاح!", "success");
+
+            // Update UI
+            resBirthDate.textContent = `${day} / ${month} / ${fullYear}`;
+            resCentury.textContent = centuryName;
+
+            resGovernorate.textContent = governorateName;
+            resGovCode.textContent = `كود المحافظة: (${govCode})`;
+
+            resGender.textContent = genderText;
+            resGenderSeq.textContent = `تسلسل التسجيل: ${idStr.substring(9, 13)}`;
+
+            if (isMale) {
+                resGenderIcon.className = "fa-solid fa-mars";
+                genderIconContainer.className = "w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl group-hover:scale-110 transition duration-300";
+            } else {
+                resGenderIcon.className = "fa-solid fa-venus";
+                genderIconContainer.className = "w-12 h-12 rounded-2xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-xl group-hover:scale-110 transition duration-300";
+            }
+
+            resAge.textContent = `${ageInfo.years} سنة`;
+            resAgeDetails.textContent = `و ${ageInfo.months} شهر و ${ageInfo.days} يوم`;
+
+            resZodiac.textContent = zodiacSign;
+            resNextBirthday.textContent = nextBdayDays === 0 ? "اليوم! 🎂" : `باقي ${nextBdayDays} يوم`;
+
+            // Build Digit Breakdown Visualization
+            renderDigitBreakdown(idStr);
+
+            // Show results
+            resultsSection.classList.remove('hidden');
+        }
+
+        function isValidDate(year, month, day) {
+            if (month < 1 || month > 12) return false;
+            if (day < 1 || day > 31) return false;
+            
+            const date = new Date(year, month - 1, day);
+            return date.getFullYear() === year && date.getMonth() === (month - 1) && date.getDate() === day;
+        }
+
+        function calculateExactAge(birthDate, currentDate) {
+            let years = currentDate.getFullYear() - birthDate.getFullYear();
+            let months = currentDate.getMonth() - birthDate.getMonth();
+            let days = currentDate.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                // Get last day of previous month
+                const prevMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                days += prevMonthDate.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            return { years, months, days };
+        }
+
+        function calculateDaysToNextBirthday(birthDate, currentDate) {
+            let nextBday = new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+            
+            // Set time to start of day for accurate comparison
+            nextBday.setHours(0,0,0,0);
+            const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+            if (today > nextBday) {
+                nextBday.setFullYear(currentDate.getFullYear() + 1);
+            }
+
+            const diffTime = Math.abs(nextBday - today);
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function getZodiacSign(day, month) {
+            const zodiacs = [
+                { name: "الجدي ♑", start: [12, 22], end: [1, 19] },
+                { name: "الدلو ♒", start: [1, 20], end: [2, 18] },
+                { name: "الحوت ♓", start: [2, 19], end: [3, 20] },
+                { name: "الحمل ♈", start: [3, 21], end: [4, 19] },
+                { name: "الثور ♉", start: [4, 20], end: [5, 20] },
+                { name: "الجوزاء ♊", start: [5, 21], end: [6, 20] },
+                { name: "السرطان ♋", start: [6, 21], end: [7, 22] },
+                { name: "الأسد ♌", start: [7, 23], end: [8, 22] },
+                { name: "العذراء ♍", start: [8, 23], end: [9, 22] },
+                { name: "الميزان ♎", start: [9, 23], end: [10, 22] },
+                { name: "العقرب ♏", start: [10, 23], end: [11, 21] },
+                { name: "القوس ♐", start: [11, 22], end: [12, 21] }
+            ];
+
+            for (let z of zodiacs) {
+                if ((month === z.start[0] && day >= z.start[1]) || (month === z.end[0] && day <= z.end[1])) {
+                    return z.name;
+                }
+            }
+            return "الجدي ♑";
+        }
+
+        function renderDigitBreakdown(idStr) {
+            digitBreakdownBar.innerHTML = '';
+
+            const colorClasses = [
+                'bg-indigo-500/20 text-indigo-300 border-indigo-500/40', // 0: Century
+                'bg-emerald-500/20 text-emerald-300 border-emerald-500/40', // 1-2: Year
+                'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+                'bg-emerald-500/20 text-emerald-300 border-emerald-500/40', // 3-4: Month
+                'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+                'bg-emerald-500/20 text-emerald-300 border-emerald-500/40', // 5-6: Day
+                'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+                'bg-cyan-500/20 text-cyan-300 border-cyan-500/40', // 7-8: Governorate
+                'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+                'bg-purple-500/20 text-purple-300 border-purple-500/40', // 9-11: Sequence
+                'bg-purple-500/20 text-purple-300 border-purple-500/40',
+                'bg-purple-500/20 text-purple-300 border-purple-500/40',
+                'bg-purple-500/20 text-purple-300 border-purple-500/40', // 12: Gender
+                'bg-slate-700/40 text-slate-400 border-slate-600/40'  // 13: Check Digit
+            ];
+
+            for (let i = 0; i < 14; i++) {
+                const char = idStr.charAt(i);
+                const item = document.createElement('div');
+                item.className = `p-1.5 sm:p-2 rounded-xl border ${colorClasses[i]} shadow-inner flex flex-col items-center justify-center`;
+                item.innerHTML = `<span class="text-sm sm:text-lg">${char}</span>`;
+                digitBreakdownBar.appendChild(item);
+            }
+        }
+
+        function showStatus(msg, type) {
+            statusBox.classList.remove('hidden', 'bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-300', 'bg-rose-500/10', 'border-rose-500/30', 'text-rose-300', 'bg-indigo-500/10', 'border-indigo-500/30', 'text-indigo-300');
+
+            if (type === 'success') {
+                statusBox.classList.add('bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-300');
+                statusIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            } else if (type === 'error') {
+                statusBox.classList.add('bg-rose-500/10', 'border-rose-500/30', 'text-rose-300');
+                statusIcon.className = 'fa-solid fa-triangle-exclamation text-rose-400';
+            } else {
+                statusBox.classList.add('bg-indigo-500/10', 'border-indigo-500/30', 'text-indigo-300');
+                statusIcon.className = 'fa-solid fa-circle-info text-indigo-400';
+            }
+
+            statusMessage.textContent = msg;
+        }
+
+        function hideStatus() {
+            statusBox.classList.add('hidden');
+        }
+
+        function hideResults() {
+            resultsSection.classList.add('hidden');
+        }
+
+        function copySummary() {
+            const summaryText = `
+📌 *تقرير البيانات المخرجة من الرقم القومي المصري:*
+• الرقم القومي: ${nationalIdInput.value}
+• تاريخ الميلاد: ${resBirthDate.textContent} (${resCentury.textContent})
+• المحافظة: ${resGovernorate.textContent}
+• النوع: ${resGender.textContent}
+• العمر الحالي: ${resAge.textContent} ${resAgeDetails.textContent}
+• البرج الفلكي: ${resZodiac.textContent}
+• المتبقي لعيد الميلاد: ${resNextBirthday.textContent}
+            `.trim();
+
+            const tempInput = document.createElement("textarea");
+            tempInput.value = summaryText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showStatus("تم نسخ ملخص البيانات إلى الحافظة بنجاح!", "success");
+        }
+    </script>
+</body>
+</html>
