@@ -129,12 +129,17 @@
             nav, 
             footer, 
             button,
-            #singleSection {
+            #singleSection,
+            #batchSection {
                 display: none !important;
             }
 
+            #printableReport,
             .print-only {
                 display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 10px !important;
             }
 
             .glass-card, .glass-card-subtle {
@@ -148,20 +153,22 @@
             table {
                 width: 100% !important;
                 border-collapse: collapse !important;
-                font-size: 9pt !important;
+                font-size: 10pt !important;
                 margin-top: 15px !important;
+                direction: rtl !important;
             }
 
             th, td {
-                border: 1px solid #333 !important;
-                padding: 6px 8px !important;
-                color: #000 !important;
+                border: 1px solid #1e293b !important;
+                padding: 8px 10px !important;
+                color: #000000 !important;
                 text-align: center !important;
             }
 
             th {
-                background-color: #f1f5f9 !important;
+                background-color: #e2e8f0 !important;
                 font-weight: bold !important;
+                color: #0f172a !important;
             }
         }
 
@@ -361,7 +368,7 @@
                     </div>
 
                     <!-- Calculated Age Card -->
-                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
+                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4 md:col-span-1 lg:col-span-1">
                         <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xl shrink-0">
                             <i class="fa-solid fa-hourglass-half"></i>
                         </div>
@@ -371,19 +378,8 @@
                         </div>
                     </div>
 
-                    <!-- Zodiac Sign Card -->
-                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl shrink-0">
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <div>
-                            <span class="text-xs text-slate-400 block font-semibold">البرج الفلكي:</span>
-                            <span id="resZodiac" class="text-lg font-bold text-purple-200">--</span>
-                        </div>
-                    </div>
-
                     <!-- Next Birthday Card -->
-                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
+                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4 md:col-span-2 lg:col-span-2">
                         <div class="w-12 h-12 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl shrink-0">
                             <i class="fa-solid fa-cake-candles"></i>
                         </div>
@@ -507,7 +503,6 @@
                                     <th class="p-3.5 text-center">المحافظة</th>
                                     <th class="p-3.5 text-center">النوع</th>
                                     <th class="p-3.5 text-center">العمر</th>
-                                    <th class="p-3.5 text-center">البرج</th>
                                     <th class="p-3.5 text-center">الحالة</th>
                                 </tr>
                             </thead>
@@ -523,17 +518,16 @@
 
         <!-- PRINTABLE REPORT (VISIBLE ONLY WHEN PRINTING) -->
         <div id="printableReport" class="print-only p-4">
-            <div class="text-center mb-6 border-b pb-4">
-                <h1 style="font-size: 20pt; font-weight: bold; margin-bottom: 6px;">تقرير تحليل أرقام القومي المصري</h1>
-                <p style="font-size: 10pt; color: #555;">تاريخ استخراج التقرير: <span id="printReportDate"></span></p>
+            <div class="text-center mb-6 border-b border-slate-300 pb-4">
+                <h1 style="font-size: 22pt; font-weight: bold; margin-bottom: 8px; color: #0f172a;">تقرير تحليل أرقام القومي المصري</h1>
+                <p style="font-size: 11pt; color: #475569;">تاريخ استخراج التقرير: <span id="printReportDate"></span></p>
             </div>
 
-            <div style="margin-bottom: 15px; font-size: 10pt; background: #f8fafc; padding: 10px; border-radius: 6px;">
-                <strong>ملخص الإحصائيات:</strong>
-                <span style="margin-right: 15px;">إجمالي السجلات: <strong id="printTotal">0</strong></span> | 
-                <span style="margin-right: 15px;">الأرقام الصحيحة: <strong id="printValid">0</strong></span> | 
-                <span style="margin-right: 15px;">الذكور: <strong id="printMales">0</strong></span> | 
-                <span style="margin-right: 15px;">الإناث: <strong id="printFemales">0</strong></span>
+            <div style="margin-bottom: 20px; font-size: 10.5pt; background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid #cbd5e1; display: flex; justify-content: space-between; align-items: center; text-align: center;">
+                <span>إجمالي السجلات: <strong id="printTotal" style="color: #0f172a;">0</strong></span>
+                <span>الأرقام الصحيحة: <strong id="printValid" style="color: #16a34a;">0</strong></span>
+                <span>الذكور: <strong id="printMales" style="color: #2563eb;">0</strong></span>
+                <span>الإناث: <strong id="printFemales" style="color: #db2777;">0</strong></span>
             </div>
 
             <table>
@@ -545,7 +539,6 @@
                         <th>المحافظة</th>
                         <th>النوع</th>
                         <th>العمر</th>
-                        <th>البرج الفلكي</th>
                         <th>حالة الرقم</th>
                     </tr>
                 </thead>
@@ -708,9 +701,6 @@
                 ageMonths += 12;
             }
 
-            // Zodiac Sign
-            const zodiacSign = getZodiacSign(day, month);
-
             // Next Birthday Countdown
             let nextBirthday = new Date(now.getFullYear(), month - 1, day);
             if (nextBirthday < now) {
@@ -743,34 +733,9 @@
                 ageMonths,
                 ageDays,
                 ageFormatted: `${ageYears} سنة، ${ageMonths} شهر، ${ageDays} يوم`,
-                zodiacSign,
                 nextBirthdayFormatted: nextBirthday.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
                 daysUntilBirthday: diffDays
             };
-        }
-
-        // Zodiac Sign Lookup Helper
-        function getZodiacSign(day, month) {
-            const signs = [
-                { name: "الجدَي ♑", start: [12, 22], end: [1, 19] },
-                { name: "الدلو ♒", start: [1, 20], end: [2, 18] },
-                { name: "الحوت ♓", start: [2, 19], end: [3, 20] },
-                { name: "الحمل ♈", start: [3, 21], end: [4, 19] },
-                { name: "الثور ♉", start: [4, 20], end: [5, 20] },
-                { name: "الجوزاء ♊", start: [5, 21], end: [6, 20] },
-                { name: "السرطان ♋", start: [6, 21], end: [7, 22] },
-                { name: "الأسد ♌", start: [7, 23], end: [8, 22] },
-                { name: "العذراء ♍", start: [8, 23], end: [9, 22] },
-                { name: "الميزان ♎", start: [9, 23], end: [10, 22] },
-                { name: "العقرب ♏", start: [10, 23], end: [11, 21] },
-                { name: "القوس ♐", start: [11, 22], end: [12, 21] }
-            ];
-
-            return signs.find(s => {
-                const [sM, sD] = s.start;
-                const [eM, eD] = s.end;
-                return (month === sM && day >= sD) || (month === eM && day <= eD);
-            })?.name || "غير محدد";
         }
 
         /*
@@ -836,7 +801,6 @@
             }
 
             document.getElementById('resAgeExact').textContent = `${res.ageYears} سنة، و ${res.ageMonths} شهر، و ${res.ageDays} يوم`;
-            document.getElementById('resZodiac').textContent = res.zodiacSign;
             document.getElementById('resNextBirthday').textContent = `${res.nextBirthdayFormatted} (متبقي ${res.daysUntilBirthday} يوم)`;
 
             document.getElementById('singleResultsWrapper').classList.remove('hidden');
@@ -969,7 +933,7 @@
             tbody.innerHTML = '';
 
             if (items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">لا توجد بيانات مطابقة للبحث</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">لا توجد بيانات مطابقة للبحث</td></tr>`;
                 return;
             }
 
@@ -986,14 +950,12 @@
                         <td class="p-3 text-center">${p.governorateName}</td>
                         <td class="p-3 text-center font-bold ${p.isMale ? 'text-indigo-400' : 'text-pink-400'}">${p.genderText}</td>
                         <td class="p-3 text-center">${p.ageYears} سنة</td>
-                        <td class="p-3 text-center text-purple-300">${p.zodiacSign}</td>
                         <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">صحيح</span></td>
                     `;
                 } else {
                     tr.innerHTML = `
                         <td class="p-3 text-center text-slate-400 font-mono">${idx + 1}</td>
                         <td class="p-3 text-center font-mono font-bold text-rose-300">${item.rawVal || '--'}</td>
-                        <td class="p-3 text-center text-slate-500">--</td>
                         <td class="p-3 text-center text-slate-500">--</td>
                         <td class="p-3 text-center text-slate-500">--</td>
                         <td class="p-3 text-center text-slate-500">--</td>
@@ -1013,8 +975,7 @@
                 if (item.res.valid) {
                     return item.res.governorateName.includes(query) || 
                            item.res.genderText.includes(query) || 
-                           item.res.birthDateFormatted.includes(query) ||
-                           item.res.zodiacSign.includes(query);
+                           item.res.birthDateFormatted.includes(query);
                 }
                 return false;
             });
@@ -1035,7 +996,6 @@
                         "كود المحافظة": p.govCode,
                         "النوع": p.genderText,
                         "العمر بالسنوات": p.ageYears,
-                        "البرج الفلكي": p.zodiacSign,
                         "حالة الرقم": "صحيح"
                     };
                 } else {
@@ -1047,7 +1007,6 @@
                         "كود المحافظة": "",
                         "النوع": "",
                         "العمر بالسنوات": "",
-                        "البرج الفلكي": "",
                         "حالة الرقم": item.res.errorMsg
                     };
                 }
@@ -1080,14 +1039,12 @@
                         <td>${p.governorateName}</td>
                         <td>${p.genderText}</td>
                         <td>${p.ageFormatted}</td>
-                        <td>${p.zodiacSign}</td>
                         <td style="color: green; font-weight: bold;">صحيح</td>
                     `;
                 } else {
                     tr.innerHTML = `
                         <td>${idx + 1}</td>
                         <td style="font-family: monospace;">${item.rawVal || '--'}</td>
-                        <td>--</td>
                         <td>--</td>
                         <td>--</td>
                         <td>--</td>
